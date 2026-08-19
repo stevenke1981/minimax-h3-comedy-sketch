@@ -1,0 +1,136 @@
+{
+  "sketch_id": "comedy_kefu_v001",
+  "title": "人工服務",
+  "target_seconds": 90,
+  "language": "Chinese",
+  "premise": "客服開口就說自己是真人，但整套流程仍是機器人。",
+  "beats": {
+    "hook": "您好，這裡是人工客服，我是真人。",
+    "setup": "客人等了四十分鐘，只要取消訂單。",
+    "misdirect": "先填心情指數。",
+    "rule_of_three": "轉接訂單組／取消組／人工主管，都是同一個人。",
+    "punch": "我是真人，只是被訓練成聽起來很像機器人。",
+    "tag": "抱歉，本系統不支援道歉功能。",
+    "callback": "您好，這裡是人工客服，我是真人。"
+  },
+  "voices": {
+    "mei": {
+      "label": "小美",
+      "description": "an adult Taiwanese Mandarin woman with a bright overly polite customer-service lilt, clear diction, slightly high pitch, and a sweet professional smile in the voice; not a robot announcer"
+    },
+    "da": {
+      "label": "阿達",
+      "description": "an adult Taiwanese Mandarin man in his thirties with an impatient conversational mid voice, slightly nasal, dry, and naturally rushed; not an announcer"
+    }
+  },
+  "segments": [
+    {
+      "id": 1,
+      "speaker": "mei",
+      "beat": "hook",
+      "text": "您好，這裡是人工客服，我是真人。",
+      "direction": "bright, confident, slightly too sweet, as if reading a greeting card",
+      "emotion": "cheerful",
+      "render_seconds": 8
+    },
+    {
+      "id": 2,
+      "speaker": "da",
+      "beat": "setup",
+      "text": "太好了。我等了四十分鐘。我只要取消訂單。",
+      "direction": "relieved then businesslike, one breath between sentences, no shouting",
+      "emotion": "relieved",
+      "render_seconds": 10
+    },
+    {
+      "id": 3,
+      "speaker": "mei",
+      "beat": "misdirect",
+      "text": "好的。請提供會員編號、身份證後四碼，還有您今天的心情指數。",
+      "direction": "same sweet script energy, treating the last item as equally normal",
+      "emotion": "cheerful",
+      "render_seconds": 12
+    },
+    {
+      "id": 4,
+      "speaker": "da",
+      "beat": "misdirect",
+      "text": "心情指數？那是什麼？",
+      "direction": "confused, short, a little irritated but still polite",
+      "emotion": "confused",
+      "render_seconds": 8
+    },
+    {
+      "id": 5,
+      "speaker": "mei",
+      "beat": "misdirect",
+      "text": "一到十分。十分是想砸手機。",
+      "direction": "helpfully specific, still smiling, no irony in the voice",
+      "emotion": "cheerful",
+      "render_seconds": 8
+    },
+    {
+      "id": 6,
+      "speaker": "da",
+      "beat": "rule_of_three",
+      "text": "七分。拜託，轉人工主管。",
+      "direction": "tired, clipped, trying to stay calm",
+      "emotion": "frustrated",
+      "render_seconds": 8
+    },
+    {
+      "id": 7,
+      "speaker": "mei",
+      "beat": "rule_of_three",
+      "text": "好的，幫您轉過去。人工主管，就是我自己。",
+      "direction": "tiny hold after 轉過去, then proudly reveals she is the supervisor",
+      "emotion": "cheerful",
+      "render_seconds": 12
+    },
+    {
+      "id": 8,
+      "speaker": "da",
+      "beat": "punch",
+      "text": "妳到底是不是真人？",
+      "direction": "direct challenge, not yelling, punch word 真人 at the end",
+      "emotion": "frustrated",
+      "render_seconds": 8
+    },
+    {
+      "id": 9,
+      "speaker": "mei",
+      "beat": "punch",
+      "text": "我是真人。只是被訓練成聽起來很像機器人。",
+      "direction": "sincere and slightly pleased, as if this is a compliment",
+      "emotion": "proud",
+      "render_seconds": 12
+    },
+    {
+      "id": 10,
+      "speaker": "da",
+      "beat": "tag",
+      "text": "那差別在哪？",
+      "direction": "flat, exhausted, waiting for the rug to be pulled",
+      "emotion": "tired",
+      "render_seconds": 7
+    },
+    {
+      "id": 11,
+      "speaker": "mei",
+      "beat": "tag",
+      "text": "機器人不會跟你道歉。抱歉，這裡沒有道歉功能。",
+      "direction": "first sentence helpful, second sentence same script smile, funny words at the end",
+      "emotion": "cheerful",
+      "render_seconds": 12
+    },
+    {
+      "id": 12,
+      "speaker": "mei",
+      "beat": "callback",
+      "text": "您好，這裡是人工客服，我是真人。",
+      "direction": "exact same greeting as the opening, no wink, reset to zero",
+      "emotion": "cheerful",
+      "render_seconds": 8
+    }
+  ]
+}
