@@ -13,6 +13,7 @@ REQUIRED = [
     "README.md",
     "LICENSE",
     "references/joke-structure.md",
+    "references/story-stillcut.md",
     "templates/人工服務.json",
     "scripts/run_comedy_sketch.py",
     "scripts/qa_and_assemble.py",
@@ -36,6 +37,10 @@ def main() -> int:
         return fail("SKILL.md missing skill name")
     if "MiniMaxH3TurboSampler" in skill and "禁止" not in skill:
         return fail("SKILL.md must forbid turbo, not recommend it")
+    if "story-stillcut.md" not in skill and "時長跟旁白" not in skill:
+        return fail("SKILL.md missing still-cut / duration-follows-narration path")
+    if "很平順" not in (ROOT / "references" / "story-stillcut.md").read_text(encoding="utf-8"):
+        return fail("story-stillcut.md missing wording table")
 
     sketch = json.loads((ROOT / "templates" / "人工服務.json").read_text(encoding="utf-8"))
     beats = sketch.get("beats") or {}

@@ -1,29 +1,35 @@
 ---
 name: minimax-h3-comedy-sketch
-description: Use when making a MiniMax H3 comedy voice sketch.
-version: 1.0.0
+description: Use when making comedy/story voice sketches with hook, punch, still-cut.
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 metadata:
   hermes:
-    tags: [minimax-h3, comedy, sketch, punchline, hook, t8-speech, comfyui]
-    related_skills: [minimax-h3-speech, asr, ffmpeg-editing, comfyui]
+    tags: [minimax-h3, comedy, sketch, punchline, hook, t8-speech, comfyui, liaozhai, storytelling]
+    related_skills: [minimax-h3-speech, asr, ffmpeg-editing, comfyui, story-voice-video-pipeline]
     category: media
 ---
 
 # MiniMax H3 笑話語音小品
 
-Use when 主人要「笑話小品」「語音段子」「90 秒小品」「用 MiniMax H3 / ComfyUI 講笑話」，或要把笑點拆成鉤子／鋪墊／包袱再出聲。
+Use when 主人要「笑話小品」「語音段子」「90 秒小品」「聊齋說書」「用 MiniMax H3 / ComfyUI 講笑話」，或要把笑點拆成鉤子／鋪墊／包袱再出聲。
 
-這條路是 **T8 speech 分段人聲 + FFmpeg 組裝**，不是 Turbo 720p 口型片。人聲可懂優先於畫面。
+兩條已驗證的路：
+
+1. **H3 T8 語音小品**：分段人聲 + FFmpeg 組裝。人聲可懂優先於畫面。
+2. **說書靜幀片**：Token Plan 出圖 + 情緒 TTS + 時長跟旁白走。見 `references/story-stillcut.md`。
+
+不是 Turbo 720p 口型片。
 
 ## When to Use
 
 - 指定時長（例如 1 分 30 秒）的語音小品／廣播短劇
-- 要先拆笑點再生成，不要直接讓模型「自己搞笑」
-- 引擎是本機 Comfy `E:\minimax-h3\ComfyUI` 的 MiniMax H3 T8
+- 3～10 分鐘說書小品（聊齋、生活荒謬），時長跟旁白，不要硬切
+- 要先拆笑點／張力再生成，不要直接讓模型「自己搞笑」
+- 引擎是本機 Comfy `E:\minimax-h3\ComfyUI` 的 MiniMax H3 T8，或 `E:\MoneyPrinterTurbo` 靜幀產線
 
-不要用這條路：要 720p 說話頭、要 Turbo 4-step、或只要純文字段子。畫面走 `minimax-h3-speech` 的 Ref2VA；人聲走這裡。
+不要用 H3 這條路：要 720p 說話頭、要 Turbo 4-step、或只要純文字段子。畫面走 `minimax-h3-speech` 的 Ref2VA；人聲走這裡。說書＋多切靜幀走路徑 2。
 
 ## Host map
 
@@ -66,6 +72,9 @@ curl -s http://127.0.0.1:8188/system_stats
 4. **好笑的詞靠句末。** 「差別在哪」弱；「本系統不支援道歉功能」才是落點。
 5. **硬 tag 比沒 tag 更糟。** 包袱乾淨就進 callback。
 6. **良性違規。** 違反常理，但聽眾心理安全（客服荒謬可以；傷害弱勢不行）。
+7. **鉤子要生活化。** 「欸你有沒有遇過那種人」比「本篇講述……」強。不要講義腔。
+8. **不要只用單詞。** 「很平」改「很平順」；「臉色很白」改「臉色很白皙」；「講得很白」改「講得很明白」。聽的人要聽到完整說法。
+9. **時長跟旁白走。** 主人說「大約 N 分鐘、不用硬切」＝旁白多長片子就多長。不要 pad 或砍包袱去湊整點。
 
 ### 2. 依 T8 切段（一人一段）
 
@@ -113,7 +122,7 @@ python C:/Users/steven/AppData/Local/hermes/skills/media/minimax-h3-comedy-sketc
   --project E:/h3cspeed/output/comedy_kefu_v001
 ```
 
-目標 88–95 秒。太短：加大 `--gap`（預設 0.92）或加 tag。太長：縮 gap，不要剪包袱落點。修剪只去頭尾靜音，禁止 `stop_periods=1`（會把句中換氣剪成 0.3 秒）。峰值 0.0 dB 但 ASR 對得上 = 大聲削波，組裝時 `alimiter` + `loudnorm`，不必整段重跑。
+目標約 90 秒時，88–95 秒即可。主人若說「不用硬切」，以旁白時長為準，不要為了 90 秒去砍包袱。太短：加大 `--gap`（預設 0.92）或加 tag。太長且主人要卡 90 秒：縮 gap，不要剪包袱落點。修剪只去頭尾靜音，禁止 `stop_periods=1`（會把句中換氣剪成 0.3 秒）。峰值 0.0 dB 但 ASR 對得上 = 大聲削波，組裝時 `alimiter` + `loudnorm`，不必整段重跑。
 
 ### 5. 交付
 
@@ -128,10 +137,12 @@ CLI 沒有附件通道：只報絕對路徑。Telegram 才複製到 `%LOCALAPPDA
 
 | 主人說 | 做什麼 |
 |---|---|
-| 做 90 秒笑話小品 | 本 skill 全流程 |
+| 做 90 秒笑話小品 | 本 skill H3 全流程 |
+| 3～10 分鐘說書／聊齋 | `references/story-stillcut.md`，時長跟旁白 |
 | 只要拆笑點、不要出聲 | 只做步驟 1，停 |
 | 人聲聽不清／沒聲音 | 改載 `minimax-h3-speech` |
 | 要畫面＋口型 | T8 人聲完成後另開 Ref2VA，FFmpeg mux |
+| 要多切靜幀＋鎖臉 | 路徑 2，不要硬套 90 秒 |
 | 換題材重做 | 新 JSON + 新 `sketch_id`，舊段不要混 |
 
 ## Pitfalls
@@ -143,11 +154,16 @@ CLI 沒有附件通道：只報絕對路徑。Telegram 才複製到 `%LOCALAPPDA
 5. **Turbo 搶時間。** 有能量沒音素。小品比詩詞更不能糊。
 6. **用 SNL／春晚時長套 90 秒。** 春晚小品 10+ 分鐘；90 秒是一個 bit，不是一齣戲。
 7. **解釋包袱。** 寫手共識：解釋笑話 = 殺笑話。tag 是新角度，不是註解。
+8. **講義腔鉤子。** 「本篇講述……」比「欸你有沒有聽過」弱。
+9. **單詞描寫。** 「很平／很白／很輕／很乾」聽起來像標籤。改完整說法。
+10. **硬切整點分鐘。** 主人說大約 N 分鐘＝旁白決定時長。
 
 ## Verification
 
 - [ ] 笑點表七欄填完，鋪墊沒有提前笑
-- [ ] 每段 1 speaker、≤40 字、5.2–15.1 秒窗
-- [ ] 圖是 T8 20-step dual_clock，沒有 turbo LoRA
+- [ ] 鉤子是口語、具體，不是講義
+- [ ] 旁白沒有單詞標籤（平／白／輕／乾／兇單獨當形容）
+- [ ] 每段 1 speaker、≤40 字、5.2–15.1 秒窗（H3 路徑）
+- [ ] 圖是 T8 20-step dual_clock，沒有 turbo LoRA（H3 路徑）
 - [ ] 每段 volumedetect + ASR 對得上原文
-- [ ] 成片 88–95 秒
+- [ ] 90 秒任務：成片 88–95 秒。說書任務：時長 ≈ 旁白，沒硬切
